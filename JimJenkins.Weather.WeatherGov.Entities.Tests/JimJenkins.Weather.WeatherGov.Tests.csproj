@@ -101,6 +101,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="SampleJson\City_Lookup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -108,6 +109,7 @@
     <None Include="SampleJson\zipcode_lookup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SecretSettings.config" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
