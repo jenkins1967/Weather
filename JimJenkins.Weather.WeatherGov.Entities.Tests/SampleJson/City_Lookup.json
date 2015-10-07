@@ -1,0 +1,59 @@
+﻿{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Trenton",
+               "short_name" : "Trenton",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Mercer County",
+               "short_name" : "Mercer County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "New Jersey",
+               "short_name" : "NJ",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Trenton, NJ, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.248298,
+                  "lng" : -74.728904
+               },
+               "southwest" : {
+                  "lat" : 40.1842565,
+                  "lng" : -74.8193402
+               }
+            },
+            "location" : {
+               "lat" : 40.2170534,
+               "lng" : -74.7429384
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.248298,
+                  "lng" : -74.728904
+               },
+               "southwest" : {
+                  "lat" : 40.1842565,
+                  "lng" : -74.8193402
+               }
+            }
+         },
+         "place_id" : "ChIJubs9LUhDwYkRvNdciX9WFs8",
+         "types" : [ "locality", "political" ]
+      }
+   ],
+   "status" : "OK"
+}
