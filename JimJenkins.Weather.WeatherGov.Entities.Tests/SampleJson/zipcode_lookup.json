@@ -1,0 +1,60 @@
+﻿{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "08610",
+               "short_name" : "08610",
+               "types" : [ "postal_code" ]
+            },
+            {
+               "long_name" : "Trenton",
+               "short_name" : "Trenton",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "New Jersey",
+               "short_name" : "NJ",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Trenton, NJ 08610, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.223088,
+                  "lng" : -74.670079
+               },
+               "southwest" : {
+                  "lat" : 40.175044,
+                  "lng" : -74.752841
+               }
+            },
+            "location" : {
+               "lat" : 40.1956132,
+               "lng" : -74.71614889999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.223088,
+                  "lng" : -74.670079
+               },
+               "southwest" : {
+                  "lat" : 40.175044,
+                  "lng" : -74.752841
+               }
+            }
+         },
+         "place_id" : "ChIJ7SJOJWFZwYkRndzlVZifYFY",
+         "postcode_localities" : [ "Hamilton Township", "Trenton" ],
+         "types" : [ "postal_code" ]
+      }
+   ],
+   "status" : "OK"
+}

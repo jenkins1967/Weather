@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<dwml version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.nws.noaa.gov/forecasts/xml/DWMLgen/schema/DWML.xsd">
+  <head>
+    <product srsName="WGS 1984" concise-name="time-series" operational-mode="official">
+      <title>NOAA's National Weather Service Forecast Data</title>
+      <field>meteorological</field>
+      <category>forecast</category>
+      <creation-date refresh-frequency="PT1H">2015-10-03T16:54:00Z</creation-date>
+    </product>
+    <source>
+      <more-information>http://www.nws.noaa.gov/forecasts/xml/</more-information>
+      <production-center>Meteorological Development Laboratory<sub-center>Product Generation Branch</sub-center></production-center>
+      <disclaimer>http://www.nws.noaa.gov/disclaimer.html</disclaimer>
+      <credit>http://www.weather.gov/</credit>
+      <credit-logo>http://www.weather.gov/images/xml_logo.gif</credit-logo>
+      <feedback>http://www.weather.gov/feedback.php</feedback>
+    </source>
+  </head>
+  <data>
+    <location>
+      <location-key>point1</location-key>
+      <point latitude="38.99" longitude="-77.01"/>
+    </location>
+    <moreWeatherInformation applicable-location="point1">http://forecast.weather.gov/MapClick.php?textField1=38.99&amp;textField2=-77.01</moreWeatherInformation>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p3h-n31-1</layout-key>
+      <start-valid-time>2015-10-03T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T17:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T23:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T02:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T05:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T08:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T11:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T17:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T23:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T02:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T05:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T08:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T11:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T17:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-05T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-06T02:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-06T08:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-06T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-06T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-07T02:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-07T08:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-07T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-07T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-08T02:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-08T08:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-08T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-08T20:00:00-04:00</start-valid-time>
+    </time-layout>
+    <parameters applicable-location="point1">
+      <water-state time-layout="k-p3h-n31-1">
+        <waves type="significant" units="feet">
+          <name>Wave Height</name>
+          <value>1</value>
+          <value>15.4</value>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+          <value xsi:nil="true"/>
+        </waves>
+      </water-state>
+    </parameters>
+  </data>
+</dwml>

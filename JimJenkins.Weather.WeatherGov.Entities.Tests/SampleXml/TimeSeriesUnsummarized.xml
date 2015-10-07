@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<dwml version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.nws.noaa.gov/forecasts/xml/DWMLgen/schema/DWML.xsd">
+  <head>
+    <product srsName="WGS 1984" concise-name="time-series" operational-mode="official">
+      <title>NOAA's National Weather Service Forecast Data</title>
+      <field>meteorological</field>
+      <category>forecast</category>
+      <creation-date refresh-frequency="PT1H">2015-10-03T15:41:25Z</creation-date>
+    </product>
+    <source>
+      <more-information>http://www.nws.noaa.gov/forecasts/xml/</more-information>
+      <production-center>Meteorological Development Laboratory<sub-center>Product Generation Branch</sub-center></production-center>
+      <disclaimer>http://www.nws.noaa.gov/disclaimer.html</disclaimer>
+      <credit>http://www.weather.gov/</credit>
+      <credit-logo>http://www.weather.gov/images/xml_logo.gif</credit-logo>
+      <feedback>http://www.weather.gov/feedback.php</feedback>
+    </source>
+  </head>
+  <data>
+    <location>
+      <location-key>point1</location-key>
+      <point latitude="40.66" longitude="-73.93"/>
+    </location>
+    <moreWeatherInformation applicable-location="point1">http://forecast.weather.gov/MapClick.php?textField1=40.66&amp;textField2=-73.93</moreWeatherInformation>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p24h-n1-1</layout-key>
+      <start-valid-time>2015-10-03T08:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-03T20:00:00-04:00</end-valid-time>
+    </time-layout>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p24h-n1-2</layout-key>
+      <start-valid-time>2015-10-03T20:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-04T09:00:00-04:00</end-valid-time>
+    </time-layout>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p12h-n2-3</layout-key>
+      <start-valid-time>2015-10-03T08:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-03T20:00:00-04:00</end-valid-time>
+      <start-valid-time>2015-10-03T20:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-04T08:00:00-04:00</end-valid-time>
+    </time-layout>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p3h-n2-4</layout-key>
+      <start-valid-time>2015-10-03T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T17:00:00-04:00</start-valid-time>
+    </time-layout>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p3h-n5-5</layout-key>
+      <start-valid-time>2015-10-03T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T17:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T23:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T02:00:00-04:00</start-valid-time>
+    </time-layout>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p6h-n3-6</layout-key>
+      <start-valid-time>2015-10-03T08:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-03T14:00:00-04:00</end-valid-time>
+      <start-valid-time>2015-10-03T14:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-03T20:00:00-04:00</end-valid-time>
+      <start-valid-time>2015-10-03T20:00:00-04:00</start-valid-time>
+      <end-valid-time>2015-10-04T02:00:00-04:00</end-valid-time>
+    </time-layout>
+    <time-layout time-coordinate="local" summarization="none">
+      <layout-key>k-p1h-n13-7</layout-key>
+      <start-valid-time>2015-10-03T12:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T13:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T14:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T15:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T16:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T17:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T18:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T19:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T20:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T21:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T22:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-03T23:00:00-04:00</start-valid-time>
+      <start-valid-time>2015-10-04T00:00:00-04:00</start-valid-time>
+    </time-layout>
+    <parameters applicable-location="point1">
+      <temperature type="maximum" units="Fahrenheit" time-layout="k-p24h-n1-1">
+        <name>Daily Maximum Temperature</name>
+        <value>53</value>
+      </temperature>
+      <temperature type="minimum" units="Fahrenheit" time-layout="k-p24h-n1-2">
+        <name>Daily Minimum Temperature</name>
+        <value>51</value>
+      </temperature>
+      <temperature type="dew point" units="Fahrenheit" time-layout="k-p3h-n5-5">
+        <name>Dew Point Temperature</name>
+        <value>47</value>
+        <value>48</value>
+        <value>49</value>
+        <value>49</value>
+        <value>49</value>
+      </temperature>
+      <wind-speed type="sustained" units="knots" time-layout="k-p3h-n5-5">
+        <name>Wind Speed</name>
+        <value>21</value>
+        <value>20</value>
+        <value>17</value>
+        <value>19</value>
+        <value>18</value>
+      </wind-speed>
+      <direction type="wind" units="degrees true" time-layout="k-p3h-n2-4">
+        <name>Wind Direction</name>
+        <value>40</value>
+        <value>40</value>
+      </direction>
+      <cloud-amount type="total" units="percent" time-layout="k-p3h-n5-5">
+        <name>Cloud Cover Amount</name>
+        <value>100</value>
+        <value>93</value>
+        <value>91</value>
+        <value>91</value>
+        <value>97</value>
+      </cloud-amount>
+      <precipitation type="snow" units="inches" time-layout="k-p6h-n3-6">
+        <name>Snow Amount</name>
+        <value>0.00</value>
+        <value>0.00</value>
+        <value>0.00</value>
+      </precipitation>
+      <probability-of-precipitation type="12 hour" units="percent" time-layout="k-p12h-n2-3">
+        <name>12 Hourly Probability of Precipitation</name>
+        <value>82</value>
+        <value>35</value>
+      </probability-of-precipitation>
+      <wind-speed type="gust" units="knots" time-layout="k-p3h-n5-5">
+        <name>Wind Speed Gust</name>
+        <value>32</value>
+        <value>31</value>
+        <value>28</value>
+        <value>29</value>
+        <value>31</value>
+      </wind-speed>
+      <humidity type="relative" units="percent" time-layout="k-p3h-n5-5">
+        <name>Relative Humidity</name>
+        <value>80</value>
+        <value>83</value>
+        <value>87</value>
+        <value>86</value>
+        <value>86</value>
+      </humidity>
+      <weather time-layout="k-p3h-n5-5">
+        <name>Weather Type, Coverage, and Intensity</name>
+        <weather-conditions>
+          <value coverage="chance" intensity="light" weather-type="drizzle" qualifier="none">
+            <visibility units="statute miles">5</visibility>
+          </value>
+          <value coverage="chance" intensity="light" additive="and" weather-type="rain" qualifier="none">
+            <visibility units="statute miles">5</visibility>
+          </value>
+        </weather-conditions>
+        <weather-conditions>
+          <value coverage="chance" intensity="light" weather-type="drizzle" qualifier="none">
+            <visibility units="statute miles">5</visibility>
+          </value>
+          <value coverage="chance" intensity="light" additive="and" weather-type="rain" qualifier="none">
+            <visibility units="statute miles">5</visibility>
+          </value>
+        </weather-conditions>
+        <weather-conditions>
+          <value coverage="chance" intensity="light" weather-type="drizzle" qualifier="none">
+            <visibility units="statute miles">5</visibility>
+          </value>
+          <value coverage="chance" intensity="light" additive="and" weather-type="rain" qualifier="none">
+            <visibility units="statute miles">5</visibility>
+          </value>
+        </weather-conditions>
+        <weather-conditions>
+          <value coverage="chance" intensity="light" weather-type="drizzle" qualifier="or">
+            <visibility units="statute miles">5</visibility>
+          </value>
+          <value coverage="chance" intensity="very light" additive="or" weather-type="rain" qualifier="or">
+            <visibility units="statute miles">5</visibility>
+          </value>
+        </weather-conditions>
+        <weather-conditions>
+          <value coverage="chance" intensity="light" weather-type="drizzle" qualifier="or">
+            <visibility units="statute miles">5</visibility>
+          </value>
+          <value coverage="chance" intensity="very light" additive="or" weather-type="rain" qualifier="or">
+            <visibility units="statute miles">5</visibility>
+          </value>
+        </weather-conditions>
+      </weather>
+      <hazards time-layout="k-p1h-n13-7">
+        <name>Watches, Warnings, and Advisories</name>
+        <hazard-conditions>
+          <hazard hazardCode="CF.Y" phenomena="Coastal Flood" significance="Advisory" hazardType="long duration">
+            <hazardTextURL>http://forecast.weather.gov/wwamap/wwatxtget.php?cwa=okx&amp;wwa=Coastal%20Flood%20Advisory</hazardTextURL>
+          </hazard>
+        </hazard-conditions>
+        <hazard-conditions>
+          <hazard hazardCode="CF.Y" phenomena="Coastal Flood" significance="Advisory" hazardType="long duration">
+            <hazardTextURL>http://forecast.weather.gov/wwamap/wwatxtget.php?cwa=okx&amp;wwa=Coastal%20Flood%20Advisory</hazardTextURL>
+          </hazard>
+        </hazard-conditions>
+        <hazard-conditions>
+          <hazard hazardCode="CF.Y" phenomena="Coastal Flood" significance="Advisory" hazardType="long duration">
+            <hazardTextURL>http://forecast.weather.gov/wwamap/wwatxtget.php?cwa=okx&amp;wwa=Coastal%20Flood%20Advisory</hazardTextURL>
+          </hazard>
+        </hazard-conditions>
+        <hazard-conditions>
+          <hazard hazardCode="CF.Y" phenomena="Coastal Flood" significance="Advisory" hazardType="long duration">
+            <hazardTextURL>http://forecast.weather.gov/wwamap/wwatxtget.php?cwa=okx&amp;wwa=Coastal%20Flood%20Advisory</hazardTextURL>
+          </hazard>
+        </hazard-conditions>
+        <hazard-conditions>
+          <hazard hazardCode="CF.Y" phenomena="Coastal Flood" significance="Advisory" hazardType="long duration">
+            <hazardTextURL>http://forecast.weather.gov/wwamap/wwatxtget.php?cwa=okx&amp;wwa=Coastal%20Flood%20Advisory</hazardTextURL>
+          </hazard>
+        </hazard-conditions>
+        <hazard-conditions>
+          <hazard hazardCode="CF.Y" phenomena="Coastal Flood" significance="Advisory" hazardType="long duration">
+            <hazardTextURL>http://forecast.weather.gov/wwamap/wwatxtget.php?cwa=okx&amp;wwa=Coastal%20Flood%20Advisory</hazardTextURL>
+          </hazard>
+        </hazard-conditions>
+        <hazard-conditions/>
+        <hazard-conditions/>
+        <hazard-conditions/>
+        <hazard-conditions/>
+        <hazard-conditions/>
+        <hazard-conditions/>
+        <hazard-conditions/>
+      </hazards>
+    </parameters>
+  </data>
+</dwml>
