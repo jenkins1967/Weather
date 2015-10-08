@@ -125,28 +125,17 @@ namespace JimJenkins.GeoCoding.Services
                 };
 
                 var city = resultObj.AddressComponents.FirstOrDefault(x => x.IsCity);
-                if (city != null)
-                {
-                    geoCodingResult.City = city.LongName;
-                }
+                geoCodingResult.City = (city != null) ? city.LongName : string.Empty;   
+             
                 var state = resultObj.AddressComponents.FirstOrDefault(x => x.IsState);
-                if (state != null)
-                {
-                    geoCodingResult.State = state.LongName;
-                }
-
+                geoCodingResult.State = (state != null) ? state.LongName : string.Empty;
+                
                 var postalCode = resultObj.AddressComponents.FirstOrDefault(x => x.IsPostalCode);
-                if (postalCode != null)
-                {
-                    geoCodingResult.Zip = postalCode.LongName;
-                }
-
+                geoCodingResult.Zip = (postalCode != null) ? postalCode.LongName : string.Empty;
+                
                 var country = resultObj.AddressComponents.FirstOrDefault(x => x.IsCountry);
-                if (country != null)
-                {
-                    geoCodingResult.Country = postalCode.LongName;
-                }
-
+                geoCodingResult.Country = (country != null) ? country.LongName : string.Empty;
+                
                 return geoCodingResult;
             }
             catch (Exception err)
