@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace JimJenkins.GeoCoding.Services
 {
@@ -18,27 +19,46 @@ namespace JimJenkins.GeoCoding.Services
     {
         public IEnumerable<City> Parse(string data)
         {
-            var latLonList = string.Empty;
-            var cityNameList = string.Empty;
-            Task<IEnumerable<Coordinate>> coordinateTask;
-            Task<IEnumerable<string>> cityNameTask;
-
-            using (var parser = XmlReader.Create(new StringReader(data)))
+            Task<IEnumerable<Coordinate>> coordinateTask = null;
+            Task<IEnumerable<string>> cityNameTask = null;
+            IList<Task> readerTasks = new List<Task>();
+            var settings = new XmlReaderSettings {Async = true};
+            using (var parser = XmlReader.Create(new StringReader(data), settings))
             {
-                parser.MoveToContent();
-                parser.MoveToElement();
-                latLonList = parser.ReadContentAsString();
-                coordinateTask = new Task<IEnumerable<Coordinate>>(() => ParseCoordinates(latLonList));
+                while (parser.Read())
+                {
+                    if (parser.NodeType == XmlNodeType.Element)
+                    {
+                        if (parser.LocalName.Equals("latLonList"))
+                        {
+                            readerTasks.Add(parser.ReadElementContentAsStringAsync().ContinueWith(task =>
+                            {
+                                coordinateTask = new Task<IEnumerable<Coordinate>>(() => ParseCoordinates(task.Result));
+                            }));
 
-                parser.MoveToElement();
-                cityNameList = parser.ReadContentAsString();
-                cityNameTask = new Task<IEnumerable<string>>(() => ParseCityNames(cityNameList));
+                        }
+                        if(parser.LocalName.Equals("cityNameList"))
+                        {
+                            readerTasks.Add(parser.ReadElementContentAsStringAsync().ContinueWith(task =>
+                            {
+                                cityNameTask = new Task<IEnumerable<string>>(() => ParseCityNames(task.Result));
+                            }));
+                        }
+                    }
+                }
+
+                Task.WaitAll(readerTasks.ToArray());
                 parser.Close();
             }
 
+            if (coordinateTask == null || cityNameTask == null)
+            {
+                throw new Exception("The city name provider did not return correct data. ");
+            }
             Task.WaitAll(new Task[] {coordinateTask, cityNameTask});
 
             return BuildCityList(coordinateTask.Result.ToList(), cityNameTask.Result.ToList());
+          //  return new List<City>();
 
         }
 

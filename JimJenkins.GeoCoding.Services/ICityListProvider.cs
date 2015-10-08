@@ -1,25 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace JimJenkins.GeoCoding.Services
 {
     public interface ICityListProvider
     {
-        IEnumerable<City> GetCities();
+        IEnumerable<City> GetAllCities();
+        IEnumerable<City> GetPrimaryCities();
     }
 
     public class CityListProvider : ICityListProvider
     {
+        private readonly ICityListProviderConfiguration _config;
         private readonly ICityListParser _cityParser;
 
-        public CityListProvider(ICityListParser cityParser)
+        public CityListProvider(ICityListProviderConfiguration config, ICityListParser cityParser)
         {
+            _config = config;
             _cityParser = cityParser;
         }
 
-        public IEnumerable<City> GetCities()
+        public IEnumerable<City> GetAllCities()
         {
-            var service = new CityService.ndfdXMLPortTypeClient();
-            var data = service.LatLonListCityNames("1234");
+            return GetCities("1234");
+        }
+
+        public IEnumerable<City> GetPrimaryCities()
+        {
+            return GetCities("1");
+        }
+
+
+
+        private IEnumerable<City> GetCities(string flags)
+        {        
+            var requestUri = new UriBuilder(_config.BaseUri){Query = "listCitiesLevel=" + flags};
+            var client = new WebClient();
+            var data = client.DownloadString(requestUri.Uri);
             return _cityParser.Parse(data);
         }
     }
