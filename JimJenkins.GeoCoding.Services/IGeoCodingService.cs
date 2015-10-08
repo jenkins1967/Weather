@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using JimJenkins.GeoCoding.Services.Parsing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using JimJenkins.GeoCoding.Services.Exceptions;
 
 namespace JimJenkins.GeoCoding.Services
 {
@@ -21,18 +22,27 @@ namespace JimJenkins.GeoCoding.Services
 
     public interface IGeoCodingParser
     {
-        GeoCodingResult Parse(string data);
+        RequestResult Parse(string data);
     }
 
     public class GeoCodingParser : IGeoCodingParser
     {
-        public GeoCodingResult Parse(string json)
+        public RequestResult Parse(string json)
         {
             var result = new GeoCodingResult();
-            var parseResult = JsonConvert.DeserializeObject<RequestResult>(json);
-           
-            return null;
+            RequestResult parseResult;
+            try
+            {
+                parseResult = JsonConvert.DeserializeObject<RequestResult>(json);
+            }
+            catch(Exception err)
+            {
+                throw new GeoCodingParseException(err);
+            }
+
+            return parseResult;
         }
+        
         
     }
 
@@ -40,10 +50,14 @@ namespace JimJenkins.GeoCoding.Services
     {
         private readonly IGeoCodingServiceConfigProvider _configProvider;
         private readonly IGeoCodingParser _parser;
+        private readonly IGeoCodingDataMapper _mapper;
 
 
-        public GeoCodingService(IGeoCodingServiceConfigProvider configProvider,IGeoCodingParser parser)
+        public GeoCodingService(IGeoCodingServiceConfigProvider configProvider,
+            IGeoCodingParser parser,
+            IGeoCodingDataMapper mapper)
         {
+            _mapper = mapper;
             _parser = parser;
             _configProvider = configProvider;
         }
@@ -81,12 +95,64 @@ namespace JimJenkins.GeoCoding.Services
         {
             var client = new WebClient();
             var resultTask = client.DownloadStringTaskAsync(uri);
-
             resultTask.Wait();
 
             var data = resultTask.Result;
+            var parseResult = _parser.Parse(data);
 
-            return _parser.Parse(data);
+            return _mapper.MapRequestResult(parseResult);
+        }
+
+    }
+
+    public interface IGeoCodingDataMapper
+    {
+        GeoCodingResult MapRequestResult(RequestResult requestResult);
+    }
+
+    public class GeoCodingDataMapper:IGeoCodingDataMapper
+    {
+        public GeoCodingResult MapRequestResult(RequestResult requestResult)
+        {
+            try
+            {
+
+
+                var resultObj = requestResult.Result[0];
+                var geoCodingResult = new GeoCodingResult
+                {
+                    Coordinate = new Coordinate(resultObj.Geometry.Location.Latitude, resultObj.Geometry.Location.Longitude)
+                };
+
+                var city = resultObj.AddressComponents.FirstOrDefault(x => x.IsCity);
+                if (city != null)
+                {
+                    geoCodingResult.City = city.LongName;
+                }
+                var state = resultObj.AddressComponents.FirstOrDefault(x => x.IsState);
+                if (state != null)
+                {
+                    geoCodingResult.State = state.LongName;
+                }
+
+                var postalCode = resultObj.AddressComponents.FirstOrDefault(x => x.IsPostalCode);
+                if (postalCode != null)
+                {
+                    geoCodingResult.Zip = postalCode.LongName;
+                }
+
+                var country = resultObj.AddressComponents.FirstOrDefault(x => x.IsCountry);
+                if (country != null)
+                {
+                    geoCodingResult.Country = postalCode.LongName;
+                }
+
+                return geoCodingResult;
+            }
+            catch (Exception err)
+            {
+                throw new GeoCodingMapException(err);
+            }
         }
 
     }

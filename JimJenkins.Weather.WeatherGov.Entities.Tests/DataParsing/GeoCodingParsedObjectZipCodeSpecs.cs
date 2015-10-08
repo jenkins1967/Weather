@@ -26,16 +26,19 @@ namespace JimJenkins.Weather.WeatherGov.Entities.Tests.DataParsing
             components[0].LongName.ShouldEqual("08610");
             components[0].ShortName.ShouldEqual("08610");
             components[0].Types[0].ShouldEqual("postal_code");
+            components[0].IsPostalCode.ShouldBeTrue();
 
             components[1].LongName.ShouldEqual("Trenton");
             components[1].ShortName.ShouldEqual("Trenton");
             components[1].Types[0].ShouldEqual("locality");
             components[1].Types[1].ShouldEqual("political");
+            components[1].IsCity.ShouldBeTrue();
 
             components[2].LongName.ShouldEqual("New Jersey");
             components[2].ShortName.ShouldEqual("NJ");
             components[2].Types[0].ShouldEqual("administrative_area_level_1");
             components[2].Types[1].ShouldEqual("political");
+            components[2].IsState.ShouldBeTrue();
 
             components[3].LongName.ShouldEqual("United States");
             components[3].ShortName.ShouldEqual("US");

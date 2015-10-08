@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="City.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="Exceptions\GeoCodingParseException.cs" />
     <Compile Include="Parsing\AddressComponent.cs" />
     <Compile Include="GeoCodingResult.cs" />
     <Compile Include="ICityListParser.cs" />

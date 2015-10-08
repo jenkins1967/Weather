@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace JimJenkins.GeoCoding.Services.Parsing
 {
-    internal class RequestResult
+    public class RequestResult
     {
         [JsonProperty("results")]
         public IList<Result> Result { get; set; }

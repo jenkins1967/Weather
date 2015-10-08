@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace JimJenkins.GeoCoding.Services.Parsing
 {
-    internal class Bounds
+    public class Bounds
     {
         [JsonProperty("northeast")]
         public ParsedCoordinate UpperLeft { get; set; }

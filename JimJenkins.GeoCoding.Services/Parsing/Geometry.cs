@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace JimJenkins.GeoCoding.Services.Parsing
 {
-    internal class Geometry
+    public class Geometry
     {
         [JsonProperty("bounds")]
         public Bounds Bounds { get; set; }

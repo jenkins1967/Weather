@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace JimJenkins.GeoCoding.Services.Parsing
 {
-    internal class ParsedCoordinate
+    public class ParsedCoordinate
     {
         [JsonProperty("lat")]
         public float Latitude { get; set; }

@@ -65,7 +65,7 @@ namespace JimJenkins.GeoCoding.Services
         private Coordinate SplitCoordinates(string data)
         {
             var pairs = data.Split(",".ToCharArray());
-            return new Coordinate {Latitude = float.Parse(pairs[0]), Longitude = float.Parse(pairs[1])};
+            return new Coordinate (float.Parse(pairs[0]), float.Parse(pairs[1]));
         }
 
         private IEnumerable<string> ParseCityNames(string data)

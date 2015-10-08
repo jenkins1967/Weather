@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace JimJenkins.GeoCoding.Services.Parsing
 {
-    internal class AddressComponent
+    public class AddressComponent
     {
         [JsonProperty("long_name")]
         public string LongName { get; set; }
@@ -13,5 +13,12 @@ namespace JimJenkins.GeoCoding.Services.Parsing
 
         [JsonProperty("types")]
         public IList<string> Types { get; set; }
+
+        public bool IsCity { get { return Types.Contains("locality"); } }
+        public bool IsState { get { return Types.Contains("administrative_area_level_1"); } }
+
+        public bool IsCountry { get { return Types.Contains("country"); } }
+
+        public bool IsPostalCode { get { return Types.Contains("postal_code"); } }
     }
 }
