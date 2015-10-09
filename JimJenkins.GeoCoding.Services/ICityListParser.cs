@@ -34,6 +34,7 @@ namespace JimJenkins.GeoCoding.Services
                             readerTasks.Add(parser.ReadElementContentAsStringAsync().ContinueWith(task =>
                             {
                                 coordinateTask = new Task<IEnumerable<Coordinate>>(() => ParseCoordinates(task.Result));
+                                coordinateTask.Start();
                             }));
 
                         }
@@ -42,6 +43,7 @@ namespace JimJenkins.GeoCoding.Services
                             readerTasks.Add(parser.ReadElementContentAsStringAsync().ContinueWith(task =>
                             {
                                 cityNameTask = new Task<IEnumerable<string>>(() => ParseCityNames(task.Result));
+                                cityNameTask.Start();
                             }));
                         }
                     }
@@ -69,7 +71,7 @@ namespace JimJenkins.GeoCoding.Services
 
             for (var index = 0; index < cities.Length; index++)
             {
-                cities[0] = new City {GeoCoordinates = coordinates[index], Name = cityList[index]};
+                cities[index] = new City {GeoCoordinates = coordinates[index], Name = cityList[index]};
             }
 
             return cities;

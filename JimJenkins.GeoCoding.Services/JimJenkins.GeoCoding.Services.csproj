@@ -51,7 +51,10 @@
     <Compile Include="City.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Exceptions\GeoCodingParseException.cs" />
+    <Compile Include="Extensions\UriBuilderExtensions.cs" />
     <Compile Include="ICityProviderConfiguration.cs" />
+    <Compile Include="IGeoCodingDataMapper.cs" />
+    <Compile Include="IGeoCodingParser.cs" />
     <Compile Include="Parsing\AddressComponent.cs" />
     <Compile Include="GeoCodingResult.cs" />
     <Compile Include="ICityListParser.cs" />

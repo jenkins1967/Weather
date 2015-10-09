@@ -27,7 +27,7 @@ namespace JimJenkins.Weather.WeatherGov.Entities.Tests.GeoCodingMapping
             //arrange
             var result = GetZipRequest();
             //act
-            var codedResult = _sut.MapRequestResult(result);
+            var codedResult = _sut.MapRequestResult(result).FirstOrDefault();
 
             //assert
             codedResult.City.ShouldNotBeEmpty();
@@ -45,7 +45,7 @@ namespace JimJenkins.Weather.WeatherGov.Entities.Tests.GeoCodingMapping
             //arrange
             var result = GetCityRequest();
             //act
-            var codedResult = _sut.MapRequestResult(result);
+            var codedResult = _sut.MapRequestResult(result).FirstOrDefault();
 
             //assert
             codedResult.City.ShouldNotBeEmpty();

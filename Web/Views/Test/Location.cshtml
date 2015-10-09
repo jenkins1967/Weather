@@ -1,0 +1,27 @@
+﻿
+<div id="currentLocationContainer">
+    
+</div>
+<div id="locationError">
+    
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var userLocation;
+        $(function () {
+            userLocation = new UserLocation(locationChange);
+        });
+
+        function locationChange(error) {
+            if (error == null) {
+                error = "no errors";
+            }
+            $("#locationError").text(error);
+            var locationString = "lat: " + userLocation.currentLocation.coords.latitude + "<br />";
+            locationString += "lon: " + userLocation.currentLocation.coords.latitude + "<br />";
+            $("#currentLocationContainer").text(locationString);
+        }
+    </script>
+}

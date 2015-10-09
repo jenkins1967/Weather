@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Web.IoC;
 
 namespace Web
 {
@@ -13,6 +14,9 @@ namespace Web
     {
         protected void Application_Start()
         {
+            //ioc
+            var container = AutoFacContainerBuilder.Build();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

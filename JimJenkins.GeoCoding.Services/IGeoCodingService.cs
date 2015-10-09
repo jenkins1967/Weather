@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.ExceptionServices;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using JimJenkins.GeoCoding.Services.Parsing;
+using JimJenkins.GeoCoding.Services.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JimJenkins.GeoCoding.Services.Exceptions;
@@ -18,33 +19,10 @@ namespace JimJenkins.GeoCoding.Services
         GeoCodingResult GetFromCoordinate(Coordinate coordinate);
 
         GeoCodingResult GetFromCityState(string city, string state);
+
+        IEnumerable<GeoCodingResult> GetFromAddress(string address);
     }
 
-    public interface IGeoCodingParser
-    {
-        RequestResult Parse(string data);
-    }
-
-    public class GeoCodingParser : IGeoCodingParser
-    {
-        public RequestResult Parse(string json)
-        {
-            var result = new GeoCodingResult();
-            RequestResult parseResult;
-            try
-            {
-                parseResult = JsonConvert.DeserializeObject<RequestResult>(json);
-            }
-            catch(Exception err)
-            {
-                throw new GeoCodingParseException(err);
-            }
-
-            return parseResult;
-        }
-        
-        
-    }
 
     public class GeoCodingService : IGeoCodingService
     {
@@ -64,84 +42,48 @@ namespace JimJenkins.GeoCoding.Services
 
         public GeoCodingResult GetFromZip(string zip)
         {
-            var uri = new UriBuilder(_configProvider.BaseUri);
-            uri.Query = uri.Query + string.Format("address={0}" + zip);
-
-            return GetData(uri.Uri);
-
-
+            return GetFromAddress(zip).FirstOrDefault();
         }
     
         public GeoCodingResult GetFromCoordinate(Coordinate coordinate)
         {
             var uri = new UriBuilder(_configProvider.BaseUri);
-            var address = string.Format("lat={0}&lon={1}", coordinate.Latitude,coordinate.Longitude);
-            uri.Query = uri.Query + address;
-
-            return GetData(uri.Uri);    
+            uri.AddToQueryString(string.Format("lat={0}&lon={1}", coordinate.Latitude, coordinate.Longitude));
+            return GetData(uri.Uri).FirstOrDefault();    
         }
 
         public GeoCodingResult GetFromCityState(string city, string state)
         {
+            return GetFromAddress(string.Format("{0},{1}", city, state)).FirstOrDefault();
+        }
+
+        public IEnumerable<GeoCodingResult> GetFromAddress(string address)
+        {
             var uri = new UriBuilder(_configProvider.BaseUri);
-            var address = string.Format("{0},{1}", city, state);
-
-            uri.Query = uri.Query + string.Format("address={0}" + Uri.EscapeDataString(address));
-
+            uri.AddToQueryString(string.Format("address={0}", 
+                Uri.EscapeDataString(address)));
+                
             return GetData(uri.Uri);   
         }
 
-        private GeoCodingResult GetData(Uri uri)
+        private IEnumerable<GeoCodingResult> GetData(Uri uri)
         {
             var client = new WebClient();
+            
             var resultTask = client.DownloadStringTaskAsync(uri);
-            resultTask.Wait();
 
-            var data = resultTask.Result;
-            var parseResult = _parser.Parse(data);
-
-            return _mapper.MapRequestResult(parseResult);
-        }
-
-    }
-
-    public interface IGeoCodingDataMapper
-    {
-        GeoCodingResult MapRequestResult(RequestResult requestResult);
-    }
-
-    public class GeoCodingDataMapper:IGeoCodingDataMapper
-    {
-        public GeoCodingResult MapRequestResult(RequestResult requestResult)
-        {
-            try
+            resultTask.Wait(10000); //10 seconds
+            if (resultTask.Status == TaskStatus.RanToCompletion)
             {
+                var data = resultTask.Result;
+                var parseResult = _parser.Parse(data);
 
-
-                var resultObj = requestResult.Result[0];
-                var geoCodingResult = new GeoCodingResult
-                {
-                    Coordinate = new Coordinate(resultObj.Geometry.Location.Latitude, resultObj.Geometry.Location.Longitude)
-                };
-
-                var city = resultObj.AddressComponents.FirstOrDefault(x => x.IsCity);
-                geoCodingResult.City = (city != null) ? city.LongName : string.Empty;   
-             
-                var state = resultObj.AddressComponents.FirstOrDefault(x => x.IsState);
-                geoCodingResult.State = (state != null) ? state.LongName : string.Empty;
-                
-                var postalCode = resultObj.AddressComponents.FirstOrDefault(x => x.IsPostalCode);
-                geoCodingResult.Zip = (postalCode != null) ? postalCode.LongName : string.Empty;
-                
-                var country = resultObj.AddressComponents.FirstOrDefault(x => x.IsCountry);
-                geoCodingResult.Country = (country != null) ? country.LongName : string.Empty;
-                
-                return geoCodingResult;
+                return !parseResult.Status.Equals("ZERO_RESULTS")
+                    ? _mapper.MapRequestResult(parseResult)
+                    : new List<GeoCodingResult>();
             }
-            catch (Exception err)
-            {
-                throw new GeoCodingMapException(err);
-            }
+
+            throw new TimeoutException("Getting geocoding data timed out using " + uri.AbsoluteUri);
         }
 
     }

@@ -43,6 +43,7 @@
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
@@ -59,11 +60,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DataParsing\GeoCodingParsedObjectCitySpecs.cs" />
-    <Compile Include="DataParsing\GeoCodingParsedObjectZipCodeSpecs.cs" />
-    <Compile Include="DataParsing\ParseTimeSeriesUnsummarizedData.cs" />
-    <Compile Include="GeoCodingCityProvider\CityProviderSpecs.cs" />
-    <Compile Include="GeoCodingMapping\MapperSpecs.cs" />
+    <Compile Include="GeoCoding\DataParsing\GeoCodingParsedObjectCitySpecs.cs" />
+    <Compile Include="GeoCoding\DataParsing\GeoCodingParsedObjectZipCodeSpecs.cs" />
+    <Compile Include="GeoCoding\DataParsing\ParseTimeSeriesUnsummarizedData.cs" />
+    <Compile Include="GeoCoding\GeoCodingCityProvider\CityParserSpecs.cs" />
+    <Compile Include="GeoCoding\GeoCodingCityProvider\CityProviderSpecs.cs" />
+    <Compile Include="GeoCoding\GeoCodingMapping\MapperSpecs.cs" />
+    <Compile Include="GeoCoding\Service\GeoCodingServiceSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\LocationProviders.cs" />
     <Compile Include="Service\RequestBuilder.cs" />
@@ -91,7 +94,9 @@
     <Content Include="SampleXml\Everything.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SampleXml\SampleCityList.xml" />
+    <Content Include="SampleXml\SampleCityList.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SampleXml\TimeSeriesUnsummarized.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -111,7 +116,9 @@
     <None Include="SampleJson\zipcode_lookup.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="SecretSettings.config" />
+    <None Include="SecretSettings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Choose>
