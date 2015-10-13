@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Runtime.ExceptionServices;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using JimJenkins.GeoCoding.Services.Extensions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using JimJenkins.GeoCoding.Services.Exceptions;
 
 namespace JimJenkins.GeoCoding.Services
 {
@@ -67,24 +60,22 @@ namespace JimJenkins.GeoCoding.Services
         }
 
         private IEnumerable<GeoCodingResult> GetData(Uri uri)
-        {
-            var client = new WebClient();
+        {     
+
+        var client = new WebClient();
             
-            var resultTask = client.DownloadStringTaskAsync(uri);
+            var data = client.DownloadString(uri);
+                          
+            var parseResult = _parser.Parse(data);
 
-            resultTask.Wait(10000); //10 seconds
-            if (resultTask.Status == TaskStatus.RanToCompletion)
-            {
-                var data = resultTask.Result;
-                var parseResult = _parser.Parse(data);
-
-                return !parseResult.Status.Equals("ZERO_RESULTS")
-                    ? _mapper.MapRequestResult(parseResult)
-                    : new List<GeoCodingResult>();
-            }
-
-            throw new TimeoutException("Getting geocoding data timed out using " + uri.AbsoluteUri);
+            return !parseResult.Status.Equals("ZERO_RESULTS")
+                ? _mapper.MapRequestResult(parseResult)
+                : new List<GeoCodingResult>();
+            
         }
-
     }
+
+
+ 
+
 }

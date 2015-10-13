@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace Web
 {
@@ -19,6 +16,18 @@ namespace Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name:"FindZip", 
+                routeTemplate:"api/Search/Zip/{zipcode}",
+                defaults: new {controller="Search", action="FindZip", zipcode=RouteParameter.Optional}
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "FindAddress",
+                routeTemplate: "api/Search/Address/{address}",
+                defaults: new { controller = "Search", action = "FindAddress", address=RouteParameter.Optional }
+                );
         }
     }
 }

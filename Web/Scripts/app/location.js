@@ -32,7 +32,7 @@ var UserLocation = function(locationChangedCallback) {
 
     function locationDetected(location) {
         self.currentLocation = location;
-        changeCallback(null);
+        changeCallback(self.currentLocation, null);
     }
 
     function locationDetectionError(error) {
@@ -57,16 +57,17 @@ var UserLocation = function(locationChangedCallback) {
         }
         if (self.currentLocation == null) {
             //40.781530, -73.967008 Central Park
-            var coords = new Coordinates();
-            coords.latitude = 40.781530;
-            coords.longitude = -73.967008;
-            self.currentLocation = {
-                coords: coords
+            var coords = {
+                coords: {
+                    latitude: 40.781530,
+                    longitude: -73.967008
+                }
             }
+            self.currentLocation = coords;
         }
-    
 
-        changeCallback(message);
+
+        changeCallback(self.currentLocation, message);
     }
 
     function geoLocationSupport() {

@@ -1,25 +1,123 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div id="searchResults" class="panel panel-default">
+        <div class="panel-heading">Select from these locations:</div>      
+        <div class="panel-body">jim</div>  
+        <button class="btn btn-default" type="button">Cancel</button>
     </div>
 </div>
+
+@section scripts
+{
+    <script src="~/ClientTemplates/SearchResults.html" id="searchResultsTemplate" type="text/x-handlebars-template"></script>
+
+    <script type="text/javascript">
+        var userLocation;
+        var searchHandler;
+        var searchResultsTemplate;
+        $(function() {
+            userLocation = new UserLocation(locationChange);
+
+            var options = {
+                resultCallback: searchResult,
+                postalSearchUri: '@Url.RouteUrl("FindZip",
+                                      new {httproute = "true", controller = "Search", action = "FindZip", zipcode = ""})',
+                addressSearchUri: '@Url.RouteUrl("FindAddress",
+                                       new {httproute = "true", controller = "Search", action = "FindAddress", address = ""})'
+            }
+
+            searchHandler = new Search(options);
+
+            $("#searchButton").on('click', doSearch);
+        });
+
+        function doSearch(event) {
+            var value = $("#searchText").val();
+            if (value !== '') {
+                searchHandler.search(value);
+            } else {
+                showError("No search information was entered.");
+            }
+        }
+
+        function locationChange(location, error) {
+            if (error == null) {
+                error = "no errors";
+            }
+
+            $("#locationError").text(error);
+            var locationString = "lat: " + location.coords.latitude + "<br />";
+            locationString += "lon: " + location.coords.latitude + "<br />";
+            $("#currentLocationContainer").text(locationString);
+        }
+
+        function searchResult(data) {
+            if ($.isArray(data)) {
+                showSearchPicker(data);
+            } else {
+                var location = {
+                    coords: {
+                        latitude: data.Latitude,
+                        longitude: data.Longitude,
+                        description: data.Description
+                    }
+                };
+
+                locationChange(location, null);
+            }
+        }
+
+        function showSearchPicker(data) {
+            var picker = $("#searchResults");
+
+            //load
+            var locations = [];
+            $.each(data, function(index, value) {
+                locations.push({
+                    latitude: value.Latitude,
+                    longitude: value.Longitude,
+                    description: value.Description
+                });
+            });
+
+            var context = {
+                locations: locations
+            };
+
+            var promise = getSearchResultsTemplate()
+                .done(function (template) {
+                    var html = template(context);
+                    $(".panel-body", picker).html(html);
+                    picker.show();
+                });
+
+        }
+
+        function getSearchResultsTemplate() {
+
+            var deferred = $.Deferred();
+
+            if (searchResultsTemplate != null) {
+                deferred.resolve(searchResultsTemplate);                                
+            } else {
+                var options = {
+                    async: true,
+                    cache: true,
+                    dataType: 'html'
+                };
+
+                $.ajax('@Url.Content("~/ClientTemplates/SearchResults.html")', options)
+                    .done(function(data) {
+                        searchResultsTemplate = Handlebars.compile(data);
+                        deferred.resolve(searchResultsTemplate);
+                    });                       
+            }
+
+            return deferred.promise();
+        }
+    </script>
+
+}

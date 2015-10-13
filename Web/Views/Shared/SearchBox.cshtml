@@ -1,0 +1,18 @@
+﻿@model string
+@using Web.Html.Containers
+@using Web.Html.Input
+
+@{
+    var attribs = new Dictionary<string, object>{{"id", "searchButton"}};
+}
+@using (var container = Html.BeginInputGroup())
+{
+    @Html.TextInput("searchText", string.Empty, new Dictionary<string, object> {{"placeholder", "Zip code or City, State"}});
+    using (var buttonContainer = Html.BeginInputGroupButton())
+    {
+        using (var button = Html.BeginDefaultButton(attribs))
+        {
+            using (var span = Html.BeginSpan("glyphicon glyphicon-search")) { }    
+        }
+    }
+}

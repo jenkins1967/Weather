@@ -11,6 +11,9 @@ namespace Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/handlebars").Include(
+                        "~/Scripts/handlebars.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -27,8 +30,9 @@ namespace Web
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/application").Include(
-               "~/Scripts/app/location.js"));
+            bundles.Add(new ScriptBundle("~/bundles/application")
+                .IncludeDirectory("~/scripts/app", "*.js"));
+            
 
             bundles.Add(new ScriptBundle("~/bundles/utility").Include(
                "~/Scripts/string.js"));

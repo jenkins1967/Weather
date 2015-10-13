@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using System.ServiceModel.Security;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
-namespace JimJenkins.GeoCoding.Services
+﻿namespace JimJenkins.GeoCoding.Services
 {
     public class GeoCodingResult
     {

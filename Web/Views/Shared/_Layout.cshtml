@@ -11,7 +11,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-static-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,18 +32,20 @@
         </div>
     </div>
     <div class="container">
-        @Html.Partial("RecentCities")
+        @Html.Partial("LocatorBar")   
+        <hr />     
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - YourWeather.com</p>
         </footer>
     </div>
     
     @Scripts.Render("~/bundles/utility")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")    
     @Scripts.Render("~/bundles/application")
+    @Scripts.Render("~/bundles/handlebars")
 
     @RenderSection("scripts", required: false)
 </body>
