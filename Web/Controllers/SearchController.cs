@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Razor.Generator;
 using JimJenkins.GeoCoding.Services;
+using JimJenkins.Weather.WeatherGov.Entities.Parsing;
 using Web.Extensions;
 using Web.Models;
 using WebGrease.Css.Extensions;
@@ -49,6 +50,22 @@ namespace Web.Controllers
                     Longitude = r.Coordinate.Longitude,
                     Description = r.GetDescription()
                 }).ToList();
-        } 
+        }
+
+        [HttpGet]
+        public CoordinateViewModel FindCoordinate([FromUri] CoordinateViewModel viewModel)
+        {          
+            var result = _geoCodingService.GetFromCoordinate(new Coordinate(viewModel.Latitude, viewModel.Longitude));
+            if (result != null)
+            {
+                return new CoordinateViewModel
+                {
+                    Latitude = result.Coordinate.Latitude,
+                    Longitude = result.Coordinate.Longitude,
+                    Description = result.GetDescription()
+                };
+            }
+            return null;
+        }
     }
 }

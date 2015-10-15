@@ -146,5 +146,41 @@ namespace JimJenkins.Weather.WeatherGov.DataService
             }
             return paramCollection;
         }
+
+        public static IRequestElementsProvider AllElements
+        {
+            get
+            {
+                var provider = new RequestElementsProvider();
+                provider.ApparentTemperature = true;
+                provider.CloudCoverAmount = true;
+                provider.DewpointTemperature = true;
+                provider.FireWeatherfromDry = true;
+                provider.FireWeatherfromWind = true;
+                provider.IceAccumulation = true;
+                provider.LiquidPrecipitationAmount = true;
+                provider.MaximumTemperature = true;
+                provider.MinimumTemperature = true;
+                //provider.ProbabilisticTropicalCycloneWindSpeedAbove34Knots = true;
+                //provider.ProbabilisticTropicalCycloneWindSpeedAbove50Knots = true;
+                //provider.ProbabilisticTropicalCycloneWindSpeedAbove64Knots = true;
+                //provider.ProbabilityofDamagingThunderstormWinds = true;
+                provider.ProbabilityofHail = true;
+                //provider.ProbabilityofExtremeSevereThunderstorms = true;
+                //provider.ProbabilityofExtremeThunderstormWinds = true;
+                provider.ProbabilityofTornadoes = true;
+                provider.ProbabilityofSevereThunderstorms = true;
+                provider.RelativeHumidity = true;
+                provider.SnowfallAmount = true;
+                provider.TwelveHourProbabilityPrecipitation = true;
+                provider.ThreeHourlyTemperature = true;
+                provider.WatchesWarningsandAdvisories = true;
+                provider.WaveHeight = true;
+                provider.Weather = true;
+                provider.WindGust = true;
+                provider.WindSpeed = true;
+                return provider;
+            }
+        }
     }
 }

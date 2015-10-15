@@ -10,29 +10,36 @@ var Search = function (options) {
     var config = options;
 
     var self = {
-        search: startSearch,
+        searchAddress: startAddressSearch,
+        searchLocation: searchForCoordinate,
         errorCallback: function (error){}
     };
     
     return self;
    
-    function startSearch(searchParam) {
+    function startAddressSearch(searchParam) {
         
         if (isAllNumbers(searchParam)) {
-            searchForPostalCode(searchParam);
-        } else {
-            searchForAddress(searchParam);
+            return searchForPostalCode(searchParam);
         }
+
+        return searchForAddress(searchParam);
+        
     }
 
     function searchForPostalCode(searchParam) {        
         var uri = config.postalSearchUri + "/" + searchParam;
-        search(uri);
+        return search(uri);
     }
 
     function searchForAddress(searchParam) {
         var uri = config.addressSearchUri + "/" + searchParam;
-        search(uri);
+        return search(uri);
+    }
+
+    function searchForCoordinate(location) {
+        var uri = config.coordinateSearchUri + "?Latitude=" + location.coords.latitude + "&Longitude=" + location.coords.longitude;
+        return search(uri);
     }
 
     function isAllNumbers(searchParam) {
@@ -43,16 +50,8 @@ var Search = function (options) {
 
     function search(uri) {
         var encodedUri = encodeURI(uri);
-        $.getJSON(encodedUri)
-            .done(searchSuccess)
-            .fail(searchFailed);
+        return $.getJSON(encodedUri);
+            
     }
-
-    function searchSuccess(data, status, xhr) {        
-        config.resultCallback(data);
-    }
-    function searchFailed(data, status, errorThrown) {
-        alert("Search failed.");
-    }
-
+    
 }

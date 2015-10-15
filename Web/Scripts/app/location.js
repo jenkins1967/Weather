@@ -5,7 +5,7 @@ var UserLocation = function(locationChangedCallback) {
         currentLocation: null,
         locationChanged: function() {},
         isInUnitedStates: function() {},
-        update: updatePosition(),
+        update: updatePosition,
         geoLocationSupported: null
     };
 
@@ -14,14 +14,13 @@ var UserLocation = function(locationChangedCallback) {
 
     function initialize() {
         self.geoLocationSupported = geoLocationSupport();
-        updatePosition();
     }
 
     function updatePosition() {
         if (geoLocationSupport()) {
             var options = {
-                enabledHighAccuracy: true,
-                timeout: 3000, //3 seconds
+                enabledHighAccuracy: false,
+                timeout: 5000, //3 seconds
                 maximumAge: 0 //no cache
             };
             navigator.geolocation.getCurrentPosition(locationDetected, locationDetectionError, options);
@@ -54,18 +53,7 @@ var UserLocation = function(locationChangedCallback) {
             }
         } else {
             message = error;
-        }
-        if (self.currentLocation == null) {
-            //40.781530, -73.967008 Central Park
-            var coords = {
-                coords: {
-                    latitude: 40.781530,
-                    longitude: -73.967008
-                }
-            }
-            self.currentLocation = coords;
-        }
-
+        }       
 
         changeCallback(self.currentLocation, message);
     }

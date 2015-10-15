@@ -1,0 +1,12 @@
+﻿@using Web.Html.Input
+@using (var button = Html.BeginDefaultButton(new Dictionary<string, object>
+{
+    { "id", "autoUpdateLocation" },
+    { "class", "navbar-btn" },
+    {"title", "Toggle finding your location automatically"}
+}))
+{
+    using (Html.BeginSpan("glyphicon glyphicon-map-marker"))
+    {
+    }
+}

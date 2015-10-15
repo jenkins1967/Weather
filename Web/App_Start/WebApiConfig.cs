@@ -28,6 +28,19 @@ namespace Web
                 routeTemplate: "api/Search/Address/{address}",
                 defaults: new { controller = "Search", action = "FindAddress", address=RouteParameter.Optional }
                 );
+            config.Routes.MapHttpRoute(
+                name: "FindCoordinate",
+                routeTemplate: "api/Search/Coordinate/",
+                defaults: new { controller = "Search", action = "FindCoordinate"}
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "WeatherForLocation",
+                routeTemplate: "api/Weather/",
+                defaults: new { controller = "Weather", action = "WeatherForLocation" }
+                );
+
+            //WeatherForLocation
         }
     }
 }

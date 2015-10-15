@@ -12,7 +12,7 @@ namespace JimJenkins.Weather.WeatherGov.DataService
 {
     public interface IWeatherService
     {
-        Task<WeatherData> GetDataAsync(IWeatherRequest request);
+       // Task<WeatherData> GetDataAsync(IWeatherRequest request);
         WeatherData GetData(IWeatherRequest request);
 
     }
@@ -29,20 +29,24 @@ namespace JimJenkins.Weather.WeatherGov.DataService
             _parser = weatherParser;
         }
 
-        public async Task<WeatherData> GetDataAsync(IWeatherRequest request)
+        //public async Task<WeatherData> GetDataAsync(IWeatherRequest request)
+        //{
+        //    var requestUri = BuildCompleteRequest(request);
+
+        //    var client = new WebClient();
+        //    var task = await client.DownloadStringTaskAsync(requestUri);
+        //    return await _parser.Parse(task);
+        //}
+
+        public WeatherData GetData(IWeatherRequest request)
         {
             var requestUri = BuildCompleteRequest(request);
 
             var client = new WebClient();
-            var task = await client.DownloadStringTaskAsync(requestUri);
-            return await _parser.Parse(task);
-        }
-
-        public WeatherData GetData(IWeatherRequest request)
-        {
-            var result = GetDataAsync(request);
-            result.Wait();
-            return result.Result;
+            var data = client.DownloadString(requestUri);
+            var task = _parser.Parse(data);
+            task.Wait(5000);
+            return task.Result;
         }
 
 

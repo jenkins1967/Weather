@@ -188,9 +188,12 @@
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\WeatherController.cs" />
     <Compile Include="Extensions\GeoCodingResultExtensions.cs" />
     <Compile Include="Extensions\ModelMetadataExtensions.cs" />
+    <Compile Include="Extensions\RouteDataExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\ViewContextExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,10 +210,12 @@
     <Compile Include="Html\Input\HtmlInput.cs" />
     <Compile Include="Html\Input\HtmlUtility.cs" />
     <Compile Include="IoC\AutoFacContainerBuilder.cs" />
+    <Compile Include="IWeatherResultFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CoordinateViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\WeatherRequestResult.cs" />
     <Compile Include="Mvc\CustomModelMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -231,8 +236,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\app\constants.js" />
+    <Content Include="Scripts\app\repository.js" />
     <Content Include="Scripts\app\search.js" />
+    <Content Include="Scripts\app\searchResultsManager.js" />
     <Content Include="Scripts\app\utility.js" />
+    <Content Include="Scripts\app\weather.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
@@ -305,7 +314,10 @@
     <Content Include="Views\Shared\SearchBox.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
     <Content Include="Views\Test\Search.cshtml" />
-    <Content Include="Views\Shared\LocatorBar.cshtml" />
+    <Content Include="Views\Shared\AutoUpdateIndicator.cshtml" />
+    <Content Include="Views\Shared\SearchControl.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Shared\NavBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

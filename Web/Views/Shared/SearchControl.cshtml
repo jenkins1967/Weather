@@ -1,0 +1,16 @@
+﻿@using Web.Html.Input
+@{    
+    var attribs = new Dictionary<string, object>
+    {
+        {"id", "gotoSearch"},
+        {"class", "navbar-btn"},
+        {"title", "Find a location"}
+    };
+}
+@using (var button = Html.BeginDefaultButton(attribs))
+{    
+        using (Html.BeginSpan("glyphicon glyphicon-search"))
+        {
+        }
+} 
+

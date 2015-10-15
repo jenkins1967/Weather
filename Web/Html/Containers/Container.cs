@@ -15,6 +15,8 @@ namespace Web.Html.Containers
         private readonly string _classes;
         private readonly ContainerElement _parentContainer;
 
+        private readonly TagBuilder _builder;
+
         protected ContainerElement(string containerElement, string classes, HtmlHelper htmlHelper)
             : this(containerElement, classes, htmlHelper, null)
         {
@@ -28,6 +30,8 @@ namespace Web.Html.Containers
             _classes = classes;
             _htmlHelper = htmlHelper;
             OtherAttributes = new Dictionary<string, object>();
+
+            _builder = new TagBuilder(containerElement);
         }
 
         public IDictionary<string, object> OtherAttributes { get; set; }
@@ -39,21 +43,32 @@ namespace Web.Html.Containers
 
         public void Begin(string id)
         {
-            using (var writer = new HtmlTextWriter(_htmlHelper.ViewContext.Writer))
+            //using (var writer = new HtmlTextWriter(_htmlHelper.ViewContext.Writer))
+            //{
+            //    writer.AddAttribute("class", _classes);
+            //    if (!string.IsNullOrEmpty(id))
+            //        writer.AddAttribute("id", id);
+
+            //    if (OtherAttributes.Any())
+            //    {
+            //        OtherAttributes.ToList().ForEach(d => writer.AddAttribute(d.Key, d.Value.ToString()));
+            //    }
+
+            //    writer.RenderBeginTag(_containerElement);
+
+            //    writer.Flush();
+            //}
+            if (OtherAttributes.Any())
             {
-                writer.AddAttribute("class", _classes);
-                if (!string.IsNullOrEmpty(id))
-                    writer.AddAttribute("id", id);
-
-                if (OtherAttributes.Any())
-                {
-                    OtherAttributes.ToList().ForEach(d => writer.AddAttribute(d.Key, d.Value.ToString()));
-                }
-
-                writer.RenderBeginTag(_containerElement);
-
-                writer.Flush();
+                _builder.MergeAttributes(OtherAttributes, false);
             }
+            _builder.AddCssClass(_classes);
+            if (!string.IsNullOrEmpty(id))
+            {
+                _builder.MergeAttribute("id", id);
+            }
+
+            _htmlHelper.ViewContext.Writer.Write(_builder.ToString(TagRenderMode.StartTag));
             _sectionStarted = true;
         }
 
@@ -80,6 +95,7 @@ namespace Web.Html.Containers
                 writer.Flush();
             }
 
+            _builder.ToString(TagRenderMode.EndTag);
             _sectionClosed = true;
         }
 

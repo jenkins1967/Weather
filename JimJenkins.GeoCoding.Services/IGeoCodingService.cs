@@ -41,7 +41,7 @@ namespace JimJenkins.GeoCoding.Services
         public GeoCodingResult GetFromCoordinate(Coordinate coordinate)
         {
             var uri = new UriBuilder(_configProvider.BaseUri);
-            uri.AddToQueryString(string.Format("lat={0}&lon={1}", coordinate.Latitude, coordinate.Longitude));
+            uri.AddToQueryString(string.Format("latlng={0},{1}", coordinate.Latitude, coordinate.Longitude));
             return GetData(uri.Uri).FirstOrDefault();    
         }
 

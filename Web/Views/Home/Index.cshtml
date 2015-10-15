@@ -1,123 +1,185 @@
-﻿@{
+﻿@using Web.Html.Input
+@{
     ViewBag.Title = "Home";
+
 }
 
 <div class="row">
-    <div id="searchResults" class="panel panel-default">
-        <div class="panel-heading">Select from these locations:</div>      
-        <div class="panel-body">jim</div>  
-        <button class="btn btn-default" type="button">Cancel</button>
+    <div id="searchResults" class="hidden panel panel-default">
+        <div class="panel-heading">Select from these locations:</div>
+        <div class="panel-body">Loading...</div>
+        <div class="panel-body">
+            <button class="closeButton btn btn-default" type="button">Close</button>
+        </div>
     </div>
 </div>
 
+<textarea id="locationDisplay"></textarea>
+<textarea id="weatherDisplay"></textarea>
 @section scripts
 {
-    <script src="~/ClientTemplates/SearchResults.html" id="searchResultsTemplate" type="text/x-handlebars-template"></script>
+    <script src="~/ClientTemplates/SearchResults.html" id="searchResultsTemplate" type="text/x-handlebars-template">
+    </script>
 
     <script type="text/javascript">
         var userLocation;
+        var repository = new Repository();
+        var utility = new Utility();
+        var weatherService;
         var searchHandler;
-        var searchResultsTemplate;
-        $(function() {
-            userLocation = new UserLocation(locationChange);
+        var locationUpdateTimeout = Constants.FifteenMinutes;
+        var weatherUpdateTimeout = Constants.OneHour;
+        var locationUpdateInterval = null;
+        var weatherUpdateInterval = null;
+        var lastLocation = null;
 
+
+        $(function() {
+
+            //handle the go to search button
+            $('#gotoSearch').on('click', function() {
+                window.location.href = '@Url.Action("Search", "Home")';
+            });
+
+            initializeSearchHandler();
+            initializeWeatherService();
+
+            userLocation = new UserLocation(locationUpdateHandler);
+
+            if (userLocation.geoLocationSupported) {
+                initializeAutoLocate();
+            } else {
+                utility.hideElement($("#autoUpdateLocation"));
+                //set a default location
+                locationUpdateHandler(Constants.defaultLocation, null);
+            }
+        });
+
+        function initializeWeatherService() {
             var options = {
-                resultCallback: searchResult,
+                coordinateSearchUri: '@Url.RouteUrl("WeatherForLocation",
+                                       new {httproute = "true", controller = "Weather", action = "WeatherForLocation"})'
+            }
+            weatherService = new WeatherService(options);
+        }
+
+        function initializeSearchHandler() {
+            var options = {
                 postalSearchUri: '@Url.RouteUrl("FindZip",
                                       new {httproute = "true", controller = "Search", action = "FindZip", zipcode = ""})',
                 addressSearchUri: '@Url.RouteUrl("FindAddress",
-                                       new {httproute = "true", controller = "Search", action = "FindAddress", address = ""})'
+                                       new {httproute = "true", controller = "Search", action = "FindAddress", address = ""})',
+                coordinateSearchUri: '@Url.RouteUrl("FindCoordinate",
+                                          new {httproute = "true", controller = "Search", action = "FindCoordinate"})'
             }
 
             searchHandler = new Search(options);
-
-            $("#searchButton").on('click', doSearch);
-        });
-
-        function doSearch(event) {
-            var value = $("#searchText").val();
-            if (value !== '') {
-                searchHandler.search(value);
-            } else {
-                showError("No search information was entered.");
-            }
         }
 
-        function locationChange(location, error) {
+        //wires up auto locate button
+        function initializeAutoLocate() {
+            if (repository.getGeoLocate()) {
+                $("#autoUpdateLocation").addClass("active");
+
+                //turn on auto update
+                autoUpdateLocation(true);
+            }
+
+            $("#autoUpdateLocation").on('click', function(event) {
+                var element = $(event.currentTarget);
+                element.toggleClass('active');
+                var isOn = element.hasClass('active');
+                repository.setGeoLocate(isOn);
+                autoUpdateLocation(isOn);
+
+            });
+        }
+
+
+        function locationUpdateHandler(location, error) {
             if (error == null) {
                 error = "no errors";
             }
 
-            $("#locationError").text(error);
-            var locationString = "lat: " + location.coords.latitude + "<br />";
-            locationString += "lon: " + location.coords.latitude + "<br />";
-            $("#currentLocationContainer").text(locationString);
-        }
+            if (location != null) {
+                var deferred = $.Deferred();
 
-        function searchResult(data) {
-            if ($.isArray(data)) {
-                showSearchPicker(data);
-            } else {
-                var location = {
-                    coords: {
-                        latitude: data.Latitude,
-                        longitude: data.Longitude,
-                        description: data.Description
+                deferred.done(function(theLocation, theError) {
+                    $("#locationError").text(theError);
+
+                    if (!theLocation.description) {
+                        searchHandler.searchLocation(theLocation).done(function(resolvedLocation) {
+                            var coordLocation = utility.toCoordinate(resolvedLocation);
+                            handleCompletedLocation(coordLocation);
+                        });
+                    } else {
+                        handleCompletedLocation(theLocation);
                     }
-                };
 
-                locationChange(location, null);
+
+                });
+
+                deferred.resolve(location, error);
+            }
+
+            function handleCompletedLocation(completedLocation) {
+                var locationString = new Date().toLocaleString() + "\n";
+                locationString += "lat: " + completedLocation.coords.latitude + "\n";
+                locationString += "lon: " + completedLocation.coords.longitude + "\n";
+                if (completedLocation.description) {
+                    locationString += "description: " + completedLocation.description;
+                }
+                locationString += "\n\n";
+
+                if (locationChanged(completedLocation)) {
+                    lastLocation = completedLocation;
+                    locationString += "LOCATION CHANGED! TRIGGER UPDATE.\n";
+                    updateWeather();
+                }
+
+                var display = $("#locationDisplay");
+                display.text(display.text() + locationString);
+
+
+            }
+
+            function locationChanged(newLocation) {
+                return lastLocation == null ||
+                (newLocation.coords.latitude !== lastLocation.coords.latitude ||
+                    newLocation.coords.longitude !== lastLocation.coords.longitude);
             }
         }
 
-        function showSearchPicker(data) {
-            var picker = $("#searchResults");
+        function autoUpdateLocation(turnOn) {
+            if (turnOn) {
+                //get the location
+                updateLocation();
 
-            //load
-            var locations = [];
-            $.each(data, function(index, value) {
-                locations.push({
-                    latitude: value.Latitude,
-                    longitude: value.Longitude,
-                    description: value.Description
-                });
-            });
-
-            var context = {
-                locations: locations
-            };
-
-            var promise = getSearchResultsTemplate()
-                .done(function (template) {
-                    var html = template(context);
-                    $(".panel-body", picker).html(html);
-                    picker.show();
-                });
-
-        }
-
-        function getSearchResultsTemplate() {
-
-            var deferred = $.Deferred();
-
-            if (searchResultsTemplate != null) {
-                deferred.resolve(searchResultsTemplate);                                
+                locationUpdateInterval = window.setInterval(updateLocation, locationUpdateTimeout);
             } else {
-                var options = {
-                    async: true,
-                    cache: true,
-                    dataType: 'html'
-                };
-
-                $.ajax('@Url.Content("~/ClientTemplates/SearchResults.html")', options)
-                    .done(function(data) {
-                        searchResultsTemplate = Handlebars.compile(data);
-                        deferred.resolve(searchResultsTemplate);
-                    });                       
+                if (locationUpdateInterval != null) {
+                    window.clearInterval(locationUpdateInterval);
+                    locationUpdateInterval = null;
+                }
             }
-
-            return deferred.promise();
         }
+
+        function updateLocation() {
+            console.log("Updating location...");
+            userLocation.update();
+        }
+
+        function updateWeather() {
+            if (lastLocation != null) {
+                weatherService.getWeather(lastLocation)
+                .done(displayLocationWeather);
+            }
+        }
+
+        function displayLocationWeather(data) {
+            $("#weatherDisplay").text(data);
+        }
+
     </script>
 
 }

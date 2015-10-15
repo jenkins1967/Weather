@@ -7,6 +7,7 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using JimJenkins.GeoCoding.Services;
 using JimJenkins.Weather.WeatherGov.DataService;
+using JimJenkins.Weather.WeatherGov.Entities.Parsing;
 
 namespace Web.IoC
 {
@@ -65,6 +66,9 @@ namespace Web.IoC
 
         private static void RegisterForApplication(ContainerBuilder builder)
         {
+            //current
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
+
             //geocoding
             var assembly = typeof (IGeoCodingService).Assembly;
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
@@ -79,6 +83,8 @@ namespace Web.IoC
 
             //weather data
             assembly = typeof (IWeatherService).Assembly;
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+            assembly = typeof(IWeatherParser).Assembly;
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
         }
     }
