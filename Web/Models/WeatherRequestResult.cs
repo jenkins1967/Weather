@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -15,9 +16,13 @@ namespace Web.Models
         public WeatherDataTemperature Temperatures { get; set; }
         public WeatherDataPrecipitation Precipitation { get; set; }
 
+        public WeatherDataWind Wind { get; set; }
         public WeatherDataPrecipitationProbability PrecipitationProbability { get; set; }
 
-        public WeatherText Weather { get; set; }
+        public WeatherDataCloudCover CloudCover { get; set; }
+
+
+        //public WeatherText Weather { get; set; }
     }
 
     public class WeatherText
@@ -39,6 +44,19 @@ namespace Web.Models
         public IEnumerable<WeatherData<Int32>> DewPoint { get; set; }
 
         public IEnumerable<WeatherData<Int32>> Apparent { get; set; }
+    }
+
+    public class WeatherDataCloudCover
+    {
+        [DataMember(Name="Percent")]
+        public IEnumerable<WeatherData<Int32?>> Percent { get; set; }
+    }
+
+    public class WeatherDataWind
+    {
+        public IEnumerable<WeatherData<Int32?>> Speed { get; set; }
+        public IEnumerable<WeatherData<Int32>> Direction { get; set; }
+        public IEnumerable<WeatherData<Int32?>> Gusts { get; set; }
     }
 
     public class WeatherDataPrecipitation

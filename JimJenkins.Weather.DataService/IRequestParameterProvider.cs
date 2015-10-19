@@ -64,6 +64,16 @@ namespace JimJenkins.Weather.WeatherGov.DataService
 
     public class RequestElementsProvider : IRequestElementsProvider
     {
+        public RequestElementsProvider()
+        {
+            AllParameters = false;
+        }
+        public RequestElementsProvider(bool requestAll)
+        {
+            AllParameters = requestAll;
+        }
+
+        public bool AllParameters { get; private set; }
         [QueryParam("maxt")]
         public bool MaximumTemperature { get; set; }
         [QueryParam("mint")]
@@ -135,13 +145,16 @@ namespace JimJenkins.Weather.WeatherGov.DataService
         public IList<string> Build()
         {
             var paramCollection = new List<string>();
-            var props = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-            foreach (var prop in props)
+            if (!AllParameters)
             {
-                if (prop.PropertyType == typeof (bool) && (bool)prop.GetValue(this))
+                var props = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+                foreach (var prop in props)
                 {
-                    var queryParam = prop.GetCustomAttribute<QueryParamAttribute>();
-                    paramCollection.Add(queryParam.Parameter);
+                    if (prop.PropertyType == typeof (bool) && (bool) prop.GetValue(this))
+                    {
+                        var queryParam = prop.GetCustomAttribute<QueryParamAttribute>();
+                        paramCollection.Add(queryParam.Parameter);
+                    }
                 }
             }
             return paramCollection;
@@ -151,34 +164,34 @@ namespace JimJenkins.Weather.WeatherGov.DataService
         {
             get
             {
-                var provider = new RequestElementsProvider();
-                provider.ApparentTemperature = true;
-                provider.CloudCoverAmount = true;
-                provider.DewpointTemperature = true;
-                provider.FireWeatherfromDry = true;
-                provider.FireWeatherfromWind = true;
-                provider.IceAccumulation = true;
-                provider.LiquidPrecipitationAmount = true;
-                provider.MaximumTemperature = true;
-                provider.MinimumTemperature = true;
-                //provider.ProbabilisticTropicalCycloneWindSpeedAbove34Knots = true;
-                //provider.ProbabilisticTropicalCycloneWindSpeedAbove50Knots = true;
-                //provider.ProbabilisticTropicalCycloneWindSpeedAbove64Knots = true;
-                //provider.ProbabilityofDamagingThunderstormWinds = true;
-                provider.ProbabilityofHail = true;
-                //provider.ProbabilityofExtremeSevereThunderstorms = true;
-                //provider.ProbabilityofExtremeThunderstormWinds = true;
-                provider.ProbabilityofTornadoes = true;
-                provider.ProbabilityofSevereThunderstorms = true;
-                provider.RelativeHumidity = true;
-                provider.SnowfallAmount = true;
-                provider.TwelveHourProbabilityPrecipitation = true;
-                provider.ThreeHourlyTemperature = true;
-                provider.WatchesWarningsandAdvisories = true;
-                provider.WaveHeight = true;
-                provider.Weather = true;
-                provider.WindGust = true;
-                provider.WindSpeed = true;
+                var provider = new RequestElementsProvider(true);
+                //provider.ApparentTemperature = true;
+                //provider.CloudCoverAmount = true;
+                //provider.DewpointTemperature = true;
+                //provider.FireWeatherfromDry = true;
+                //provider.FireWeatherfromWind = true;
+                //provider.IceAccumulation = true;
+                //provider.LiquidPrecipitationAmount = true;
+                //provider.MaximumTemperature = true;
+                //provider.MinimumTemperature = true;
+                ////provider.ProbabilisticTropicalCycloneWindSpeedAbove34Knots = true;
+                ////provider.ProbabilisticTropicalCycloneWindSpeedAbove50Knots = true;
+                ////provider.ProbabilisticTropicalCycloneWindSpeedAbove64Knots = true;
+                ////provider.ProbabilityofDamagingThunderstormWinds = true;
+                //provider.ProbabilityofHail = true;
+                ////provider.ProbabilityofExtremeSevereThunderstorms = true;
+                ////provider.ProbabilityofExtremeThunderstormWinds = true;
+                //provider.ProbabilityofTornadoes = true;
+                //provider.ProbabilityofSevereThunderstorms = true;
+                //provider.RelativeHumidity = true;
+                //provider.SnowfallAmount = true;
+                //provider.TwelveHourProbabilityPrecipitation = true;
+                //provider.ThreeHourlyTemperature = true;
+                //provider.WatchesWarningsandAdvisories = true;
+                //provider.WaveHeight = true;
+                //provider.Weather = true;
+                //provider.WindGust = true;
+                //provider.WindSpeed = true;
                 return provider;
             }
         }

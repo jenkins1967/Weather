@@ -17,15 +17,15 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public WeatherData WeatherForLocation([FromUri] CoordinateViewModel viewModel)
+        public WeatherRequestResult WeatherForLocation([FromUri] CoordinateViewModel viewModel)
         {
             var location = new CoordinateRequestLocationProvider(viewModel.Latitude, viewModel.Longitude);            
             var request = new WeatherRequest(location,  RequestElementsProvider.AllElements);
             var data = _weatherService.GetData(request);
             var result = _weatherResultFactory.Build(data);
             
-            return data;
-            // return 
+            //return data;
+            return result;
 
         }
 
