@@ -93,4 +93,7 @@ var SearchResultsManager = function (element, templateLocation, locationSelected
 
         return deferred.promise();
     }
+
+
 }
+

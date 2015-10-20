@@ -1,4 +1,6 @@
-﻿namespace JimJenkins.GeoCoding.Services
+﻿using System.Globalization;
+
+namespace JimJenkins.GeoCoding.Services
 {
     public class GeoCodingResult
     {
@@ -8,5 +10,6 @@
         public string Zip { get; set; }
 
         public string Country { get; set; }
+
     }
 }

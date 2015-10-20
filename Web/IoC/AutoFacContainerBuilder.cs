@@ -1,13 +1,17 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
+using Autofac.Core;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using JimJenkins.GeoCoding.Services;
 using JimJenkins.Weather.WeatherGov.DataService;
 using JimJenkins.Weather.WeatherGov.Entities.Parsing;
+using Web.Services;
 
 namespace Web.IoC
 {
@@ -68,9 +72,10 @@ namespace Web.IoC
         {
             //current
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
-
+            
+           
             //geocoding
-            var assembly = typeof (IGeoCodingService).Assembly;
+            var assembly = typeof (GeoCodingResult).Assembly;
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
 
             builder.RegisterType<GeoCodingServiceConfigProvider>()
@@ -78,14 +83,28 @@ namespace Web.IoC
                 .WithParameter(new NamedParameter("serviceKey",
                     ConfigurationManager.AppSettings["googleServerKey"]));
 
-            //builder.RegisterType(typeof (GeoCodingService))
-            //    .As<IGeoCodingService>().InstancePerRequest();
-
             //weather data
-            assembly = typeof (IWeatherService).Assembly;
+            assembly = typeof(WeatherRequest).Assembly;
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+
             assembly = typeof(IWeatherParser).Assembly;
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+
+            //decorate the geocoding service
+            builder.RegisterType<GeoCodingService>()
+                .Named<IGeoCodingService>("geoCodingService");
+
+            builder.Register(c => new CachingGeoCodingService(c.ResolveNamed<IGeoCodingService>("geoCodingService"), MemoryCache.Default))
+                .As<IGeoCodingService>();
+
+            //decorate the weather service
+            builder.RegisterType<WeatherService>()
+                .Named<IWeatherService>("weatherService");
+
+            builder.Register(c => new CachingWeatherService(c.ResolveNamed<IWeatherService>("weatherService"), MemoryCache.Default))
+                .As<IWeatherService>();
+
+            
         }
     }
 }

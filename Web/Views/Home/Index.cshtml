@@ -5,34 +5,39 @@
 }
 
 <div class="row">
-    <div id="searchResults" class="hidden panel panel-default">
-        <div class="panel-heading">Select from these locations:</div>
-        <div class="panel-body">Loading...</div>
-        <div class="panel-body">
-            <button class="closeButton btn btn-default" type="button">Close</button>
-        </div>
-    </div>
+    <h1 id="locationDisplay"></h1>
+</div>
+<div id="weatherContainer" class="row">
+    <div class="todaysWeather"></div>
 </div>
 
-<textarea id="locationDisplay"></textarea>
-<textarea id="weatherDisplay"></textarea>
+
+<textarea id="locationLog"></textarea>
+<textarea id="weatherLog"></textarea>
 @section scripts
 {
-    <script src="~/ClientTemplates/SearchResults.html" id="searchResultsTemplate" type="text/x-handlebars-template">
+    <script src="~/ClientTemplates/TodaysWeather.html" id="searchResultsTemplate" type="text/x-handlebars-template">
     </script>
 
     <script type="text/javascript">
         var userLocation;
         var repository = new Repository();
         var utility = new Utility();
-        var weatherService;
-        var searchHandler;
-        var locationUpdateTimeout = Constants.FifteenMinutes;
-        var weatherUpdateTimeout = Constants.OneHour;
-        var locationUpdateInterval = null;
-        var weatherUpdateInterval = null;
-        var lastLocation = null;
 
+        var searchHandler;
+
+        var locationUpdateTimeout = Constants.FifteenMinutes;
+        var locationUpdateInterval = null;
+        var lastLocation = null;
+        var autoUpdateLocationFlag = false;
+
+        var weatherUpdateTimeout = Constants.OneHour;
+        var weatherUpdateInterval = null;
+        var weatherService;
+        var weatherDisplayer;
+
+        var todayTemplate;
+                
 
         $(function() {
 
@@ -43,6 +48,7 @@
 
             initializeSearchHandler();
             initializeWeatherService();
+            initializeWeatherDisplayer();
 
             userLocation = new UserLocation(locationUpdateHandler);
 
@@ -61,6 +67,14 @@
                                        new {httproute = "true", controller = "Weather", action = "WeatherForLocation"})'
             }
             weatherService = new WeatherService(options);
+        }
+
+        function initializeWeatherDisplayer() {
+            var options = {
+                todayTemplateUri: '@Url.Content("~/ClientTemplates/TodaysWeather.html")'
+            };
+            var container = $("#weatherContainer");
+            weatherDisplayer = new WeatherDisplayer(container, options);
         }
 
         function initializeSearchHandler() {
@@ -137,10 +151,14 @@
                     updateWeather();
                 }
 
-                var display = $("#locationDisplay");
+                var display = $("#locationLog");
                 display.text(display.text() + locationString);
 
+                $("#locationDisplay").text(completedLocation.description);
 
+                if (autoUpdateLocationFlag) {
+                    //resetLocationUpdate();
+                }
             }
 
             function locationChanged(newLocation) {
@@ -151,17 +169,21 @@
         }
 
         function autoUpdateLocation(turnOn) {
+            autoUpdateLocationFlag = turnOn;
             if (turnOn) {
                 //get the location
                 updateLocation();
-
-                locationUpdateInterval = window.setInterval(updateLocation, locationUpdateTimeout);
+                resetLocationUpdate();
+                
             } else {
                 if (locationUpdateInterval != null) {
-                    window.clearInterval(locationUpdateInterval);
+                    window.clearTimeout(locationUpdateInterval);
                     locationUpdateInterval = null;
                 }
             }
+        }
+        function resetLocationUpdate() {
+            locationUpdateInterval = window.setTimeout(updateLocation, locationUpdateTimeout);
         }
 
         function updateLocation() {
@@ -177,7 +199,8 @@
         }
 
         function displayLocationWeather(data) {
-            $("#weatherDisplay").text(data);
+            $("#weatherLog").text(data);
+            weatherDisplayer.load(data);
         }
 
     </script>

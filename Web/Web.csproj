@@ -60,6 +60,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -183,6 +184,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\PlaceholderAttribute.cs" />
+    <Compile Include="Services\CachingDecorator.cs" />
+    <Compile Include="Services\CachingGeoCodingService.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -219,11 +222,15 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\WeatherRequestResult.cs" />
     <Compile Include="Mvc\CustomModelMetadata.cs" />
+    <Compile Include="ObjectCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CachingWeatherService.cs" />
+    <Compile Include="Services\ICoordinateViewModelFactory.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClientTemplates\SearchResults.html" />
+    <Content Include="ClientTemplates\TodaysWeather.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -244,6 +251,7 @@
     <Content Include="Scripts\app\searchResultsManager.js" />
     <Content Include="Scripts\app\utility.js" />
     <Content Include="Scripts\app\weather.js" />
+    <Content Include="Scripts\app\weatherDisplayer.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />

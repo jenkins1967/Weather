@@ -23,8 +23,12 @@ var Utility = function() {
     }
 
     function toCoordinate(data) {
+        var description = "";
+        if (data.Description) {
+            description = data.Description;
+        }
         return {
-            description: data.Description,
+            description: description,
             coords: {
                 latitude: data.Latitude,
                 longitude: data.Longitude

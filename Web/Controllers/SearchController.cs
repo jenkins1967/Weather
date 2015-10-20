@@ -10,6 +10,7 @@ using JimJenkins.GeoCoding.Services;
 using JimJenkins.Weather.WeatherGov.Entities.Parsing;
 using Web.Extensions;
 using Web.Models;
+using Web.Services;
 using WebGrease.Css.Extensions;
 
 namespace Web.Controllers
@@ -17,25 +18,22 @@ namespace Web.Controllers
     public class SearchController : ApiController
     {
         private readonly IGeoCodingService _geoCodingService;
+        private readonly ICoordinateViewModelFactory _viewModelFactory;
 
-        public SearchController(IGeoCodingService geoCodingService)
+        public SearchController(IGeoCodingService geoCodingService, ICoordinateViewModelFactory viewModelFactory)
         {
-          _geoCodingService = geoCodingService;
+            _geoCodingService = geoCodingService;
+            _viewModelFactory = viewModelFactory;
         }
 
-        
+
         // GET: api/Location/5
         [HttpGet]
         //[Route("api/zipcode/{zipcode}", Name = "postalCodeSearch")]
         public CoordinateViewModel FindZip(string zipCode)
         {
             var result = _geoCodingService.GetFromZip(zipCode);
-            return new CoordinateViewModel
-            {
-                Latitude = result.Coordinate.Latitude,
-                Longitude = result.Coordinate.Longitude,
-                Description = result.GetDescription()
-            };
+            return _viewModelFactory.Create(result);
         }
 
         [HttpGet]
@@ -43,27 +41,25 @@ namespace Web.Controllers
         public IEnumerable<CoordinateViewModel> FindAddress(string address)
         {
             var result = _geoCodingService.GetFromAddress(address);
-            return result.Select(r =>
-                new CoordinateViewModel
-                {
-                    Latitude = r.Coordinate.Latitude,
-                    Longitude = r.Coordinate.Longitude,
-                    Description = r.GetDescription()
-                }).ToList();
+            return _viewModelFactory.Create(result).ToList();
         }
 
         [HttpGet]
         public CoordinateViewModel FindCoordinate([FromUri] CoordinateViewModel viewModel)
         {          
-            var result = _geoCodingService.GetFromCoordinate(new Coordinate(viewModel.Latitude, viewModel.Longitude));
+           // var result = _geoCodingService.GetFromCoordinate(new Coordinate(viewModel.Latitude, viewModel.Longitude));
+            var result =
+                new GeoCodingResult
+                {
+                    City = "Trenton",
+                    Coordinate = new Coordinate(viewModel.Latitude, viewModel.Longitude),
+                    Country = "United States",
+                    State = "NJ"
+                };
+            
             if (result != null)
             {
-                return new CoordinateViewModel
-                {
-                    Latitude = result.Coordinate.Latitude,
-                    Longitude = result.Coordinate.Longitude,
-                    Description = result.GetDescription()
-                };
+                return _viewModelFactory.Create(result);
             }
             return null;
         }
