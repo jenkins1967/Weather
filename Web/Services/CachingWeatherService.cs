@@ -36,7 +36,7 @@ namespace Web.Services
             {
                 var policy = new CacheItemPolicy
                 {
-                    AbsoluteExpiration = new DateTimeOffset().AddHours(1)
+                    AbsoluteExpiration = new DateTimeOffset(DateTime.UtcNow.AddHours(1))
                 };
                 return policy;
             }

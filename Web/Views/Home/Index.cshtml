@@ -1,19 +1,67 @@
 ﻿@using Web.Html.Input
+@using Web.Extensions
 @{
     ViewBag.Title = "Home";
 
 }
-
+<div class='row'>
+    @Html.Partial("RecentCities")
+</div>
 <div class="row">
     <h1 id="locationDisplay"></h1>
 </div>
-<div id="weatherContainer" class="row">
-    <div class="todaysWeather"></div>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    @using (Html.BeginPanelDefault()) { 
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Today's Weather
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            @using(Html.BeginPanelBody()){
+                <div id="weatherContainer" class="row">
+                    <div class="todaysWeather"></div>
+                </div>
+            }
+        </div>
+    }
+    @using (Html.BeginPanelDefault())
+    {
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    5 Day
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            @using(Html.BeginPanelBody())
+            {
+                <text>Nothing here yet</text>
+            }
+        </div>
+    }
+    @using (Html.BeginPanelDefault())
+    {
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Diagnostics
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            @using (Html.BeginPanelBody()) { 
+                <textarea id="locationLog"></textarea>
+                <textarea id="weatherLog"></textarea>
+            }
+        </div>
+    }
 </div>
 
 
-<textarea id="locationLog"></textarea>
-<textarea id="weatherLog"></textarea>
 @section scripts
 {
     <script src="~/ClientTemplates/TodaysWeather.html" id="searchResultsTemplate" type="text/x-handlebars-template">
@@ -154,10 +202,12 @@
                 var display = $("#locationLog");
                 display.text(display.text() + locationString);
 
-                $("#locationDisplay").text(completedLocation.description);
+                $("#locationDisplay")
+                    .text(completedLocation.description)
+                    .attr('title', completedLocation.coords.latitude + ' ' + completedLocation.coords.longitude);
 
                 if (autoUpdateLocationFlag) {
-                    //resetLocationUpdate();
+                    resetLocationUpdate();
                 }
             }
 

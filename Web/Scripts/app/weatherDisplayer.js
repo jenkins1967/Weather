@@ -14,11 +14,12 @@
 
     function load(data) {        
         var context = {
+            updated: new Date(),
             today: {
                 dailyMaximum: findItemContainingThisHour(data.Temperatures.DailyMaximum).Value,
                 conditionSummary: getConditionsText(data),
                 wind:getTodaysWindDisplay(data.Wind),
-                humidity:'&nbsp;',
+                humidity:findItemContainingThisHour(data.Humidity.Relative).Value,
                 dewPoint: findItemStartingThisHour(data.Temperatures.DewPoint).Value
             }            
         }

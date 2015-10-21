@@ -7,19 +7,17 @@
     <meta name="description" content="The home page of a simple weather web site.">
     <meta name="author" content="Jim Jenkins">
     <link rel="icon" href="../../favicon.ico">
-    <title>@ViewBag.Title - YourWeather</title>
+    <title>@ViewBag.Title - WeatherOrNot</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     @Html.Partial("NavBar")
     <div class="container">
-        @Html.Partial("RecentCities")
-        <hr />     
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - YourWeather.com</p>
+            <p>&copy; @DateTime.Now.Year - WeatherOrNot.com</p>
         </footer>
     </div>
     

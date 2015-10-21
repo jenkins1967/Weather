@@ -16,11 +16,13 @@ namespace Web.Services
             return itemKey.GetHashCode().ToString(CultureInfo.InvariantCulture);
         }
 
-        protected TResult Get<TResult>(string key, Func<TResult> getFunc) where TResult : class
+        protected TResult Get<TResult>(string partialKey, Func<TResult> getFunc) where TResult : class
         {
-            var cached = _cache.Get(CacheKeyBase + "_" + key);
+            var key = string.Format("{0}_{1}", CacheKeyBase, partialKey);
+            var cached = _cache.Get(key);
             if (cached != null)
             {
+                
                 System.Diagnostics.Debug.WriteLine("Geocoding cache hit " + key);
                 return (TResult)cached;
             }

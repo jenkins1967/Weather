@@ -211,7 +211,7 @@
     <Compile Include="Html\Containers\NullElementWriter.cs" />
     <Compile Include="Html\Containers\SpanContainerElement.cs" />
     <Compile Include="Html\Input\HtmlButtons.cs" />
-    <Compile Include="Html\Input\HtmlContainerHelper.cs" />
+    <Compile Include="Extensions\HtmlContainerHelper.cs" />
     <Compile Include="Html\Input\HtmlInput.cs" />
     <Compile Include="Html\Input\HtmlUtility.cs" />
     <Compile Include="IoC\AutoFacContainerBuilder.cs" />
@@ -256,6 +256,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
+    <None Include="Properties\PublishProfiles\GoDaddy.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\handlebars.amd.js" />
     <Content Include="Scripts\handlebars.amd.min.js" />

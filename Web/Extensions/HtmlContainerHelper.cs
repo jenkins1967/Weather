@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Web.Html.Containers;
 
-namespace Web.Html.Input
+namespace Web.Extensions
 {
     public static class HtmlContainerHelper
     {
@@ -32,6 +32,11 @@ namespace Web.Html.Input
             return html.BeginDefaultButton(null);
         }
 
+        public static ContainerElement BeginDiv(this HtmlHelper html, string classes)
+        {
+            return BeginContainer(() => new DivContainerElement(classes, html));
+        }
+
         public static ContainerElement BeginDefaultButton(this HtmlHelper html, IDictionary<string, object> htmlattributes)
         {
             return BeginContainer(() =>
@@ -58,6 +63,15 @@ namespace Web.Html.Input
             var container = new DivContainerElement(className, html);
             container.Begin();
             return container;
+        }
+
+        public static ContainerElement BeginPanelBody(this HtmlHelper helper)
+        {
+            return helper.BeginDiv("panel-body");
+        }
+        public static ContainerElement BeginPanelDefault(this HtmlHelper helper)
+        {
+            return helper.BeginDiv("panel panel-default");
         }
 
         private static ContainerElement BeginContainer(Func<ContainerElement> create)

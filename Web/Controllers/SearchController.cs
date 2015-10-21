@@ -47,15 +47,15 @@ namespace Web.Controllers
         [HttpGet]
         public CoordinateViewModel FindCoordinate([FromUri] CoordinateViewModel viewModel)
         {          
-           // var result = _geoCodingService.GetFromCoordinate(new Coordinate(viewModel.Latitude, viewModel.Longitude));
-            var result =
-                new GeoCodingResult
-                {
-                    City = "Trenton",
-                    Coordinate = new Coordinate(viewModel.Latitude, viewModel.Longitude),
-                    Country = "United States",
-                    State = "NJ"
-                };
+           var result = _geoCodingService.GetFromCoordinate(new Coordinate(viewModel.Latitude, viewModel.Longitude));
+            //var result =
+            //    new GeoCodingResult
+            //    {
+            //        City = "Trenton",
+            //        Coordinate = new Coordinate(viewModel.Latitude, viewModel.Longitude),
+            //        Country = "United States",
+            //        State = "NJ"
+            //    };
             
             if (result != null)
             {

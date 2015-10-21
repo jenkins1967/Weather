@@ -21,6 +21,8 @@ namespace Web.Models
 
         public WeatherDataCloudCover CloudCover { get; set; }
 
+        public WeatherDataHumidity Humidity { get; set; }
+
 
         //public WeatherText Weather { get; set; }
     }
@@ -44,6 +46,11 @@ namespace Web.Models
         public IEnumerable<WeatherData<Int32>> DewPoint { get; set; }
 
         public IEnumerable<WeatherData<Int32>> Apparent { get; set; }
+    }
+
+    public class WeatherDataHumidity
+    {
+        public IEnumerable<WeatherData<Int32>> Relative { get; set; }
     }
 
     public class WeatherDataCloudCover

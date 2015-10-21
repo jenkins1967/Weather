@@ -1,3 +1,8 @@
-﻿<div class="col-md-12">
-    <p>Recent Cities</p>
+﻿@using Web.Extensions
+<div class="col-md-12">
+    @using (Html.BeginPanelDefault()) {
+        using (Html.BeginPanelBody()) { 
+            <p>Recent Cities</p>
+        }
+    }
 </div>

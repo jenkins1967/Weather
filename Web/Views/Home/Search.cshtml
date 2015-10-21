@@ -1,4 +1,4 @@
-﻿@using Web.Html.Input
+﻿@using Web.Extensions
 @{
     ViewBag.Title = "Home";
     
@@ -10,10 +10,18 @@
 <div class="row">
     <div id="searchResults" class="hidden panel panel-default">
         <div class="panel-heading">Select from these locations:</div>      
-        <div class="panel-body">Loading...</div>  
-        <div class="panel-body">
-            <button class="closeButton btn btn-default" type="button">Close</button>
-        </div>
+        @using (Html.BeginPanelBody())
+        {
+            <text>Loading...</text>
+        }
+
+        @using (Html.BeginPanelBody()) {
+            var attribs = new Dictionary<string, object>();
+            attribs.Add("class", "closeButton");
+            using (Html.BeginDefaultButton(attribs)) { 
+                <text>Close</text>
+            }
+        }
     </div>
 </div>
 

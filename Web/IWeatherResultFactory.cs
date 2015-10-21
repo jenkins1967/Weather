@@ -25,6 +25,7 @@ namespace Web
                 CreatedOnUtc = data.Head.Product.CreationDate,
                 Temperatures = ProcessTemperatures(data),
                 Precipitation = ProcessPrecipitations(data),
+                Humidity = ProcessHumidities(data),
                 PrecipitationProbability = ProcessPrecipProbabilities(data),
                 Wind = ProcessWind(data),
                 CloudCover = ProcessCloudCover(data)
@@ -69,6 +70,15 @@ namespace Web
         //    }
         //    return list;
         //}
+
+        private WeatherDataHumidity ProcessHumidities(WeatherData data)
+        {
+            var relHumidities = data.Data.Parameters.First().Humidities.FirstOrDefault(x => x.Type.Equals("relative"));
+
+            var humidityData = new WeatherDataHumidity();
+            humidityData.Relative = ProcessValues(relHumidities, data.Data.TimeLayouts);
+            return humidityData;
+        }
 
         private WeatherDataCloudCover ProcessCloudCover(WeatherData data)
         {
